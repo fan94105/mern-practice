@@ -39,7 +39,7 @@ const CourseComponent = ({ currentUser, setCurrentUser }) => {
   }
   useEffect(() => {
     checkRole();
-  }, [currentUser]);
+  }, [currentUser, checkRole]);
   return (
     <div style={{ padding: "3rem" }}>
       {!currentUser && (
