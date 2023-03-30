@@ -12,35 +12,34 @@ const CourseComponent = ({ currentUser, setCurrentUser }) => {
     navigate("/login");
   };
 
-  useEffect(() => {
-    function checkRole() {
-      let _id;
-      if (currentUser) {
-        _id = currentUser.user._id;
-        if (currentUser.user.role === "instructor") {
-          courseService
-            .get(_id)
-            .then((response) => {
-              setCourseData(response.data);
-            })
-            .catch((e) => {
-              console.log(e);
-            });
-        } else if (currentUser.user.role === "student") {
-          courseService
-            .getEnrollCourses(_id)
-            .then((response) => {
-              setCourseData(response.data);
-            })
-            .catch((e) => {
-              console.log(e);
-            });
-        }
+  function checkRole() {
+    let _id;
+    if (currentUser) {
+      _id = currentUser.user._id;
+      if (currentUser.user.role === "instructor") {
+        courseService
+          .get(_id)
+          .then((response) => {
+            setCourseData(response.data);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      } else if (currentUser.user.role === "student") {
+        courseService
+          .getEnrollCourses(_id)
+          .then((response) => {
+            setCourseData(response.data);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
       }
     }
+  }
+  useEffect(() => {
     checkRole();
-    // eslint-disable-line react-hooks/exhaustive-deps
-  }, []);
+  }, [currentUser]);
   return (
     <div style={{ padding: "3rem" }}>
       {!currentUser && (
