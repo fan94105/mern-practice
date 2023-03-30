@@ -36,7 +36,7 @@ const CourseComponent = ({ currentUser, setCurrentUser }) => {
           });
       }
     }
-  }, []);
+  });
   useEffect(() => {
     checkRole();
   }, [checkRole]);
