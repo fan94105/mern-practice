@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 import CourseService from "../services/course.service";
@@ -12,7 +12,7 @@ const CourseComponent = ({ currentUser, setCurrentUser }) => {
     navigate("/login");
   };
 
-  function checkRole() {
+  const checkRole = useCallback(() => {
     let _id;
     if (currentUser) {
       _id = currentUser.user._id;
@@ -36,7 +36,7 @@ const CourseComponent = ({ currentUser, setCurrentUser }) => {
           });
       }
     }
-  }
+  }, []);
   useEffect(() => {
     checkRole();
   }, [checkRole]);
