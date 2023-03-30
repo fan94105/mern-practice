@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
 
 const RegisterComponent = () => {
+  const authService = new AuthService();
   const navigate = useNavigate();
 
   let [username, setUsername] = useState("");
@@ -26,7 +27,7 @@ const RegisterComponent = () => {
   };
   const handleRegister = async () => {
     try {
-      await AuthService.register(username, email, password, role);
+      await authService.register(username, email, password, role);
       alert("註冊成功，跳轉至登入頁面。。。");
       navigate("/login");
     } catch (e) {

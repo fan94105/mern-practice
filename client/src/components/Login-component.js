@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
 
 const LoginComponent = ({ currentUser, setCurrentUser }) => {
+  const authService = new AuthService();
   const navigate = useNavigate();
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
@@ -17,10 +18,10 @@ const LoginComponent = ({ currentUser, setCurrentUser }) => {
   };
   const handleLogin = async () => {
     try {
-      let response = await AuthService.login(email, password);
+      let response = await authService.login(email, password);
       localStorage.setItem("user", JSON.stringify(response.data));
       alert("登入成功，跳轉至個人頁面。。。");
-      setCurrentUser(AuthService.getCurrentUser());
+      setCurrentUser(authService.getCurrentUser());
       navigate("/profile");
     } catch (e) {
       setMessage(e.response.data);

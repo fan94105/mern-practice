@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import CourseService from "../services/course.service";
 
 const EnrollComponent = ({ currentUser, setCurrentUser }) => {
+  const courseService = new CourseService();
   const navigate = useNavigate();
   let [searchInput, setSearchInput] = useState("");
   let [searchResult, setSearchResult] = useState(null);
@@ -16,14 +17,15 @@ const EnrollComponent = ({ currentUser, setCurrentUser }) => {
   };
   const handleSearch = async () => {
     try {
-      let result = await CourseService.getCourseByName(searchInput);
+      let result = await courseService.getCourseByName(searchInput);
       setSearchResult(result.data);
     } catch (e) {
       console.log(e);
     }
   };
   const handleEnroll = (e) => {
-    CourseService.enroll(e.target.id)
+    courseService
+      .enroll(e.target.id)
       .then((response) => {
         alert("註冊成功，跳轉至課程頁面。。。");
         navigate("/course");
@@ -43,12 +45,12 @@ const EnrollComponent = ({ currentUser, setCurrentUser }) => {
           </button>
         </div>
       )}
-      {currentUser && currentUser.user.role == "instructor" && (
+      {currentUser && currentUser.user.role === "instructor" && (
         <div>
           <h1>只有學生能註冊課程。</h1>
         </div>
       )}
-      {currentUser && currentUser.user.role == "student" && (
+      {currentUser && currentUser.user.role === "student" && (
         <div className="search input-group mb-3">
           <input
             type="text"
@@ -60,7 +62,7 @@ const EnrollComponent = ({ currentUser, setCurrentUser }) => {
           </button>
         </div>
       )}
-      {currentUser && searchResult && searchResult.length != 0 && (
+      {currentUser && searchResult && searchResult.length !== 0 && (
         <div style={{ display: "flex", flexWrap: "wrap" }}>
           {searchResult.map((course) => {
             return (
@@ -82,14 +84,13 @@ const EnrollComponent = ({ currentUser, setCurrentUser }) => {
                     講師: {course.instructor.username}
                   </p>
                 </div>
-                <a
-                  href="#"
+                <button
                   id={course._id}
                   className="card-text btn btn-primary"
                   onClick={handleEnroll}
                 >
                   註冊課程
-                </a>
+                </button>
               </div>
             );
           })}

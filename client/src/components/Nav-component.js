@@ -14,9 +14,7 @@ const NavComponent = ({ currentUser, setCurrentUser }) => {
     <div>
       <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">
-            Navbar
-          </a>
+          <div class="navbar-brand">Navbar</div>
           <button
             class="navbar-toggler"
             type="button"
@@ -70,14 +68,14 @@ const NavComponent = ({ currentUser, setCurrentUser }) => {
                   </Link>
                 </li>
               )}
-              {currentUser && currentUser.user.role == "instructor" && (
+              {currentUser && currentUser.user.role === "instructor" && (
                 <li class="nav-item">
                   <Link class="nav-link" to="/postCourse">
                     新增課程
                   </Link>
                 </li>
               )}
-              {currentUser && currentUser.user.role == "student" && (
+              {currentUser && currentUser.user.role === "student" && (
                 <li class="nav-item">
                   <Link class="nav-link" to="/enroll">
                     註冊課程

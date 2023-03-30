@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import CourseService from "../services/course.service";
 
 const PostCourseComponent = () => {
+  const courseService = new CourseService();
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -20,7 +21,7 @@ const PostCourseComponent = () => {
   };
   const handlePostCourse = async () => {
     try {
-      await CourseService.post(title, description, price);
+      await courseService.post(title, description, price);
       navigate("/course");
     } catch (e) {
       console.log(e);

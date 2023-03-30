@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import CourseService from "../services/course.service";
 
 const CourseComponent = ({ currentUser, setCurrentUser }) => {
+  const courseService = new CourseService();
   const navigate = useNavigate();
   const [courseData, setCourseData] = useState(null);
 
@@ -12,27 +13,32 @@ const CourseComponent = ({ currentUser, setCurrentUser }) => {
   };
 
   useEffect(() => {
-    let _id;
-    if (currentUser) {
-      _id = currentUser.user._id;
-      if (currentUser.user.role == "instructor") {
-        CourseService.get(_id)
-          .then((response) => {
-            setCourseData(response.data);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-      } else if (currentUser.user.role == "student") {
-        CourseService.getEnrollCourses(_id)
-          .then((response) => {
-            setCourseData(response.data);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
+    function checkRole() {
+      let _id;
+      if (currentUser) {
+        _id = currentUser.user._id;
+        if (currentUser.user.role === "instructor") {
+          courseService
+            .get(_id)
+            .then((response) => {
+              setCourseData(response.data);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        } else if (currentUser.user.role === "student") {
+          courseService
+            .getEnrollCourses(_id)
+            .then((response) => {
+              setCourseData(response.data);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        }
       }
     }
+    checkRole();
   }, []);
 
   return (
@@ -45,17 +51,17 @@ const CourseComponent = ({ currentUser, setCurrentUser }) => {
           </button>
         </div>
       )}
-      {currentUser && currentUser.user.role == "instructor" && (
+      {currentUser && currentUser.user.role === "instructor" && (
         <div>
           <h1>歡迎來到講師的課程頁面。</h1>
         </div>
       )}
-      {currentUser && currentUser.user.role == "student" && (
+      {currentUser && currentUser.user.role === "student" && (
         <div>
           <h1>歡迎來到學生的課程頁面。</h1>
         </div>
       )}
-      {currentUser && courseData && courseData.length != 0 && (
+      {currentUser && courseData && courseData.length !== 0 && (
         <div style={{ display: "flex", flexWrap: "wrap" }}>
           {courseData.map((course) => {
             return (

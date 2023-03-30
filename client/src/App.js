@@ -13,7 +13,8 @@ import EnrollComponent from "./components/Enroll-component";
 import AuthService from "./services/auth.service";
 
 function App() {
-  let [currentUser, setCurrentUser] = useState(AuthService.getCurrentUser());
+  const authService = new AuthService();
+  let [currentUser, setCurrentUser] = useState(authService.getCurrentUser());
   return (
     <BrowserRouter>
       <Routes>
