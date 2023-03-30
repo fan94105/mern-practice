@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import CourseService from "../services/course.service";
@@ -12,35 +12,35 @@ const CourseComponent = ({ currentUser, setCurrentUser }) => {
     navigate("/login");
   };
 
-  const checkRole = useCallback(() => {
-    let _id;
-    if (currentUser) {
-      _id = currentUser.user._id;
-      if (currentUser.user.role === "instructor") {
-        courseService
-          .get(_id)
-          .then((response) => {
-            setCourseData(response.data);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-      } else if (currentUser.user.role === "student") {
-        courseService
-          .getEnrollCourses(_id)
-          .then((response) => {
-            setCourseData(response.data);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
+  useEffect(() => {
+    function checkRole() {
+      let _id;
+      if (currentUser) {
+        _id = currentUser.user._id;
+        if (currentUser.user.role === "instructor") {
+          courseService
+            .get(_id)
+            .then((response) => {
+              setCourseData(response.data);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        } else if (currentUser.user.role === "student") {
+          courseService
+            .getEnrollCourses(_id)
+            .then((response) => {
+              setCourseData(response.data);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        }
       }
     }
-  }, [currentUser, courseService]);
-  useEffect(() => {
     checkRole();
-  }, [checkRole]);
-
+    // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div style={{ padding: "3rem" }}>
       {!currentUser && (
