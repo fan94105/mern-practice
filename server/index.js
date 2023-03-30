@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const PORT = process.env.PORT || 8080;
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 dotenv.config();
@@ -32,6 +33,6 @@ app.use(
   courseRoute
 );
 
-app.listen(8080, () => {
-  console.log("Server on port 8080...");
+app.listen(PORT, () => {
+  console.log(`server started on port ${PORT}`);
 });
