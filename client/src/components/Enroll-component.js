@@ -77,34 +77,26 @@ const EnrollComponent = ({ currentUser, setCurrentUser }) => {
           </button>
         </div>
       )}
-      {currentUser &&
-        searchResult.length === 0 &&
-        allCourse &&
-        allCourse.length !== 0 && (
-          <div style={{ display: "flex", flexWrap: "wrap" }}>
-            {allCourse.map((course) => {
-              return (
-                <div
-                  className="card"
-                  style={{ width: "18rem", margin: "1rem" }}
-                >
-                  <div className="card-body">
-                    <h5 className="card-title">課程名稱: {course.title}</h5>
-                    <p sytle={{ margin: "0.5rem 0" }} className="card-text">
-                      {course.description}
-                    </p>
-                    <p sytle={{ margin: "0.5rem 0" }}>
-                      學生人數: {course.students.length}
-                    </p>
-                    <p sytle={{ margin: "0.5rem 0" }}>
-                      課程價格: {course.price}
-                    </p>
-                  </div>
+      {currentUser && !searchResult && allCourse && allCourse.length !== 0 && (
+        <div style={{ display: "flex", flexWrap: "wrap" }}>
+          {allCourse.map((course) => {
+            return (
+              <div className="card" style={{ width: "18rem", margin: "1rem" }}>
+                <div className="card-body">
+                  <h5 className="card-title">課程名稱: {course.title}</h5>
+                  <p sytle={{ margin: "0.5rem 0" }} className="card-text">
+                    {course.description}
+                  </p>
+                  <p sytle={{ margin: "0.5rem 0" }}>
+                    學生人數: {course.students.length}
+                  </p>
+                  <p sytle={{ margin: "0.5rem 0" }}>課程價格: {course.price}</p>
                 </div>
-              );
-            })}
-          </div>
-        )}
+              </div>
+            );
+          })}
+        </div>
+      )}
       {currentUser && searchResult && searchResult.length !== 0 && (
         <div style={{ display: "flex", flexWrap: "wrap" }}>
           {searchResult.map((course) => {
