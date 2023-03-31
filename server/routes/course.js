@@ -7,10 +7,7 @@ router.get("/", async (req, res) => {
     let foundCourses = await Course.find({})
       .populate("instructor", ["username", "email"])
       .exec();
-    return res.send({
-      msg: "success",
-      foundCourses,
-    });
+    return res.send(foundCourses);
   } catch (e) {
     return res.status(500).send(e);
   }

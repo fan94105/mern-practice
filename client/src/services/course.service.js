@@ -65,6 +65,17 @@ class CourseService {
       }
     );
   }
+  getAllCourse() {
+    let token;
+    if (localStorage.getItem("user")) {
+      token = JSON.parse(localStorage.getItem("user")).token;
+    } else {
+      token = "";
+    }
+    return axios.get(API_URL, {
+      headers: { Authorization: token },
+    });
+  }
 }
 
 export default CourseService;
