@@ -8,7 +8,7 @@ const EnrollComponent = ({ currentUser, setCurrentUser }) => {
   const navigate = useNavigate();
   let [searchInput, setSearchInput] = useState("");
   let [searchResult, setSearchResult] = useState(null);
-  const [allCourse, setAllCourse] = useState(null);
+  let [allCourse, setAllCourse] = useState(null);
 
   const handleToLogin = () => {
     navigate("/login");
@@ -37,9 +37,14 @@ const EnrollComponent = ({ currentUser, setCurrentUser }) => {
   };
 
   function getAllCourse() {
-    courseService.getAllCourse().then((response) => {
-      setAllCourse(response.data);
-    });
+    courseService
+      .getAllCourse()
+      .then((response) => {
+        setAllCourse(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }
   useEffect(() => {
     getAllCourse();
