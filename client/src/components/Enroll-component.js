@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import CourseService from "../services/course.service";
@@ -8,6 +8,7 @@ const EnrollComponent = ({ currentUser, setCurrentUser }) => {
   const navigate = useNavigate();
   let [searchInput, setSearchInput] = useState("");
   let [searchResult, setSearchResult] = useState(null);
+  const [allCourse, setAllCourse] = useState(null);
 
   const handleToLogin = () => {
     navigate("/login");
@@ -34,6 +35,15 @@ const EnrollComponent = ({ currentUser, setCurrentUser }) => {
         console.log(e);
       });
   };
+
+  function getAllCourse() {
+    courseService.getAllCourse().then((response) => {
+      setAllCourse(response.data);
+    });
+  }
+  useEffect(() => {
+    getAllCourse();
+  });
 
   return (
     <div style={{ padding: "3rem" }}>
@@ -62,6 +72,34 @@ const EnrollComponent = ({ currentUser, setCurrentUser }) => {
           </button>
         </div>
       )}
+      {currentUser &&
+        searchResult.length === 0 &&
+        allCourse &&
+        allCourse.length !== 0 && (
+          <div style={{ display: "flex", flexWrap: "wrap" }}>
+            {allCourse.map((course) => {
+              return (
+                <div
+                  className="card"
+                  style={{ width: "18rem", margin: "1rem" }}
+                >
+                  <div className="card-body">
+                    <h5 className="card-title">課程名稱: {course.title}</h5>
+                    <p sytle={{ margin: "0.5rem 0" }} className="card-text">
+                      {course.description}
+                    </p>
+                    <p sytle={{ margin: "0.5rem 0" }}>
+                      學生人數: {course.students.length}
+                    </p>
+                    <p sytle={{ margin: "0.5rem 0" }}>
+                      課程價格: {course.price}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
       {currentUser && searchResult && searchResult.length !== 0 && (
         <div style={{ display: "flex", flexWrap: "wrap" }}>
           {searchResult.map((course) => {
