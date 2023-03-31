@@ -4,8 +4,9 @@ import { Link } from "react-router-dom";
 import AuthService from "../services/auth.service";
 
 const NavComponent = ({ currentUser, setCurrentUser }) => {
+  const authService = new AuthService();
   const handleLogout = () => {
-    AuthService.logout();
+    authService.logout();
     setCurrentUser(null);
     alert("登出成功");
   };
